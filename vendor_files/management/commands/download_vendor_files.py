@@ -13,7 +13,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         for key, vendor_conf in settings.VENDOR.items():
-            for file_type in ['js', 'css', 'img', 'font', 'map']:
+            for file_type in ['js', 'css', 'img', 'font', 'fonts', 'map']:
                 if file_type in vendor_conf:
                     for file in vendor_conf[file_type]:
                         # get the directory and the file_name
@@ -46,3 +46,15 @@ class Command(BaseCommand):
                             h.update(open(file_name, 'rb').read())
                             if base64.b64encode(h.digest()).decode() != file_hash:
                                 raise Exception('Subresource Integrity (SRI) failed for %s' % file_name)
+
+                        if file_type in ['js', 'css']:
+                            map_url = f"{url}.map"
+                            try:
+                                map_response = requests.get(map_url)
+                                map_response.raise_for_status()
+                                map_file_name = f"{file_name}.map"
+                                with open(map_file_name, 'wb') as f:
+                                    f.write(map_response.content)
+                                print('%s -> %s' % (map_url, map_file_name))
+                            except requests.RequestException:
+                                pass
