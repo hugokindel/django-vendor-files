@@ -17,7 +17,7 @@ class Command(BaseCommand):
                 if file_type in vendor_conf:
                     for file in vendor_conf[file_type]:
                         # get the directory and the file_name
-                        path_tokens = ['vendor', key] + os.path.normpath(file['path']).split(os.path.sep)
+                        path_tokens = [settings.VENDOR_DIR, key] + os.path.normpath(file['path']).split(os.path.sep)
                         directory = os.path.join(*path_tokens[:-1])
                         file_name = os.path.join(*path_tokens)
 
