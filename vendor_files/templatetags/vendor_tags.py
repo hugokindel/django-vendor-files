@@ -23,8 +23,8 @@ def vendor(vendor_key, only=None):
                         'sri': file['sri'] if 'sri' in file else ''
                     }
                 else:
-                    tag = '<script defer src="%(static_url)s/%(vendor_key)s/%(path)s"></script>' % {
-                        'static_url': settings.STATIC_URL.rstrip('/'),
+                    tag = '<script defer src="%(vendor_url)s/%(vendor_key)s/%(path)s"></script>' % {
+                        'vendor_url': settings.VENDOR_URL.rstrip('/'),
                         'vendor_key': vendor_key,
                         'path': file['path']
                     }
@@ -41,8 +41,8 @@ def vendor(vendor_key, only=None):
                         'sri': file['sri'] if 'sri' in file else ''
                     }
                 else:
-                    tag = '<link rel="stylesheet" href="%(static_url)s/%(vendor_key)s/%(path)s" />' % {
-                        'static_url': settings.STATIC_URL.rstrip('/'),
+                    tag = '<link rel="stylesheet" href="%(vendor_url)s/%(vendor_key)s/%(path)s" />' % {
+                        'vendor_url': settings.VENDOR_URL.rstrip('/'),
                         'vendor_key': vendor_key,
                         'path': file['path']
                     }
